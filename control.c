@@ -1,27 +1,39 @@
 #include "control.h"
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
 #include "handle.h"
+#include <string.h>
 
 
+
+#ifdef LAB3A
 
 struct Control* create_control() {
 	struct Control *control = malloc(sizeof(struct Control));
 	control->table = create_table();
 	return control;
 }
+#elif LAB3B
+
+struct Control* create_control() {
+	struct Control *control = malloc(sizeof(struct Control));
+  char *filename = get_str("filename of binary");
+	control->table = create_table(filename);
+  free(filename);
+	return control;
+}
+
+#endif // LAB3B
+
 void delete_control(struct Control *control) { 
   delete_table(control->table);
   free(control);
 }
 const char* show_status(int index) {
   switch (index) {
-    case OK: return "Ok";
+    case OK:               return "Ok";
     case NOTHING_TABLE:    return "Nothing in table";
     case INCORRECT_PARENT: return "Incorrect parent";
     case INCORRECT_KEY:    return "Incorrect key";
-    default: return "Unknown status";
+    default:               return "Unknown status";
   }
 }
 void search(struct Control *control) {
@@ -32,7 +44,7 @@ void search(struct Control *control) {
 void add(struct Control *control) {
 	char *key     = get_str("key");
 	char *info    = get_str("info");
-	char *par_key = get_str("parent key:");
+	char *par_key = get_str("parent key");
 	int status = add_table(control->table, key, info, par_key);
   printf("%s\n", show_status(status));
 

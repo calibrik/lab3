@@ -8,7 +8,7 @@ char* get_str(const char *label) {
   char *str = malloc(sizeof(char) * 128);
   if (label)
     printf("Enter %s: ", label);
-  fgets(str, 128, stdin);
+  scanf("%s", str);
   
   return realloc(str, sizeof(char) * (strlen(str) + 1));
 }
